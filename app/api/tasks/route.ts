@@ -1,5 +1,4 @@
-import { TASKS } from "@/app/data/data";
-import type { TaskStatus } from "@/app/types/task";
+import { TASKS } from "@/data/data";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -8,7 +7,7 @@ export async function GET(
         params,
     }: {
         params: Promise<{
-            status: TaskStatus | undefined;
+            status: string;
         }>;
     }
 ) {
