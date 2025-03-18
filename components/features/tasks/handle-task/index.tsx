@@ -23,7 +23,7 @@ export const HandleTask = ({ task }: Props) => {
 
     const action = task ? "Edit" : "Add";
 
-    if (!user) return null;
+    if (!user || user.id !== task?.user_id) return null;
 
     return (
         <>

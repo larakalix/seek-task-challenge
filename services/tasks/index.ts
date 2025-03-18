@@ -5,6 +5,11 @@ import { globalEnv } from "@/utils/env-config";
 
 const URL = `${globalEnv.ApiUrl}tasks`;
 
+const getHeaders = (token: string) => ({
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+});
+
 // GET /api/tasks
 export const getTasks = async (): Promise<Task[]> => {
     try {
@@ -19,14 +24,17 @@ export const getTasks = async (): Promise<Task[]> => {
 };
 
 // POST /api/tasks
-export const addTask = async (task: {
-    title: Task["title"];
-    description: Task["description"];
-}): Promise<Task | null> => {
+export const addTask = async (
+    task: {
+        title: Task["title"];
+        description: Task["description"];
+    },
+    token: string
+): Promise<Task | null> => {
     try {
         const response = await fetch(URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: getHeaders(token),
             body: JSON.stringify(task),
         });
         const data = await response.json();
@@ -39,16 +47,19 @@ export const addTask = async (task: {
 };
 
 // PUT /api/tasks/:id
-export const updateTask = async (task: {
-    id: Task["id"];
-    title: Task["title"];
-    description: Task["description"];
-    status: Task["status"];
-}): Promise<Task | null> => {
+export const updateTask = async (
+    task: {
+        id: Task["id"];
+        title: Task["title"];
+        description: Task["description"];
+        status: Task["status"];
+    },
+    token: string
+): Promise<Task | null> => {
     try {
         const response = await fetch(`${URL}/${task.id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: getHeaders(token),
             body: JSON.stringify(task),
         });
         const data = await response.json();
@@ -61,10 +72,14 @@ export const updateTask = async (task: {
 };
 
 // DELETE /api/tasks/:id
-export const deleteTask = async (id: Task["id"]): Promise<Task | null> => {
+export const deleteTask = async (
+    id: Task["id"],
+    token: string
+): Promise<Task | null> => {
     try {
         const response = await fetch(`${URL}/${id}`, {
             method: "DELETE",
+            headers: getHeaders(token),
         });
         const data = await response.json();
 

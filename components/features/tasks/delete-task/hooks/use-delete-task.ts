@@ -17,7 +17,7 @@ export const useDeleteTask = ({ task }: Props) => {
     const handleDelete = async () => {
         if (!task.id) return;
 
-        await deleteTask(task.id)
+        await deleteTask(task.id, `${user?.token}`)
             .then((response) => {
                 if (response) {
                     remove(response.id);

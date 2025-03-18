@@ -1,7 +1,14 @@
-import React from 'react'
+import { Button } from "@mui/material";
+import { useAuthStore } from "@/stores/auth-store";
 
 export const Logout = () => {
-  return (
-    <div>Logout</div>
-  )
-}
+    const { logout } = useAuthStore((state) => state);
+
+    return (
+        <>
+            <Button variant="contained" color="error" onClick={logout}>
+                Logout
+            </Button>
+        </>
+    );
+};

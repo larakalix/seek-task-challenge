@@ -18,6 +18,11 @@ export const TaskGrid = ({ tasks }: Props) => {
                             {getStatusLabel(status)}
                         </h2>
                         <div className="grid grid-cols-1 gap-4">
+                            {tasks.length === 0 && (
+                                <div className="p-4 py-20 text-center text-gray-500">
+                                    No tasks found
+                                </div>
+                            )}
                             {tasks.map((task) => (
                                 <TaskCard key={task.id} task={task} />
                             ))}

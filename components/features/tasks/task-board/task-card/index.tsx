@@ -16,7 +16,6 @@ export const TaskCard = ({ task }: Props) => {
         [TaskStatus.Todo]: "default",
         [TaskStatus.InProgress]: "warning",
         [TaskStatus.Done]: "success",
-        [TaskStatus.Deleted]: "error",
     }[task.status] as ChipProps["color"];
 
     return (

@@ -37,7 +37,7 @@ export const useHandleTask = ({ task }: Props) => {
         title: Task["title"];
         description: Task["description"];
     }) => {
-        await addTask({ title, description })
+        await addTask({ title, description }, `${user?.token}`)
             .then((response) => {
                 if (response) {
                     add(response);
@@ -64,7 +64,7 @@ export const useHandleTask = ({ task }: Props) => {
         description: Task["description"];
         status: Task["status"];
     }) => {
-        await updateTask({ id, title, description, status })
+        await updateTask({ id, title, description, status }, `${user?.token}`)
             .then((response) => {
                 if (response) {
                     update(response);
@@ -81,6 +81,11 @@ export const useHandleTask = ({ task }: Props) => {
     };
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        if (!user) {
+            toast.error("Please log in to add or update task");
+            return;
+        }
+
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const { title, description, status } = Object.fromEntries(

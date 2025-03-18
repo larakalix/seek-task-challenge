@@ -2,7 +2,6 @@ export enum TaskStatus {
     Todo = "to-do",
     InProgress = "in-progress",
     Done = "done",
-    Deleted = "deleted",
 }
 
 export type Task = {
@@ -10,6 +9,8 @@ export type Task = {
     title: string;
     description: string;
     status: TaskStatus;
+    user_id: string;
+    user_name: string;
 };
 
 export function getStatusLabel(status: string): string {
@@ -17,7 +18,6 @@ export function getStatusLabel(status: string): string {
         [TaskStatus.Todo]: "Todo",
         [TaskStatus.InProgress]: "In progress",
         [TaskStatus.Done]: "Done",
-        [TaskStatus.Deleted]: "Deleted",
     }[status] as string;
 
     return label;
