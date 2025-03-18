@@ -34,11 +34,11 @@ export const TaskCard = ({ task }: Props) => {
                 <Typography
                     variant="body2"
                     sx={{ color: "text.secondary" }}
-                    className="min-h-14"
+                    className="min-h-10"
                 >
                     {task.description}
                 </Typography>
-                <hr className="my-4 opacity-20" />
+                <hr className="my-2 opacity-20" />
                 <Typography variant="subtitle2" color="success">
                     <span className="font-semibold">
                         Created by {task.user_name}
