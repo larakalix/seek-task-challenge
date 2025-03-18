@@ -12,27 +12,26 @@ export const Header = () => {
     const { user } = useAuthStore((state) => state);
 
     return (
-        <>
-            <ContentBox outerClassName="bg-light-gray-1 px-6 py-5">
-                <h1 className="text-2xl font-bold text-center">Task Manager</h1>
+        <ContentBox outerClassName="bg-light-gray-1 px-6 py-5">
+            <h1 className="text-2xl font-bold text-center">Task Manager</h1>
 
-                <nav className="flex items-center gap-x-4">
-                    <HandleTask task={null} />
+            <nav className="flex items-center gap-x-4">
+                <HandleTask task={null} />
 
-                    {user ? (
-                        <>
-                            <span className="font-semibold">Welcome, {user.name}!</span>
-                            <Logout />
-                        </>
-                    ) : (
-                        <>
-                            <LoginForm />
-                            <RegisterForm />
-                        </>
-                    )}
-                </nav>
-            </ContentBox>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-        </>
+                {user ? (
+                    <>
+                        <span className="font-semibold">
+                            Welcome, {user.name}!
+                        </span>
+                        <Logout />
+                    </>
+                ) : (
+                    <>
+                        <LoginForm />
+                        <RegisterForm />
+                    </>
+                )}
+            </nav>
+        </ContentBox>
     );
 };

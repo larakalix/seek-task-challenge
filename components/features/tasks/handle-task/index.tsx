@@ -18,12 +18,20 @@ type Props = {
 };
 
 export const HandleTask = ({ task }: Props) => {
-    const { open, statusList, user, handleClickOpen, handleClose, onSubmit } =
-        useHandleTask({ task });
+    const {
+        open,
+        statusList,
+        loading,
+        user,
+        handleClickOpen,
+        handleClose,
+        onSubmit,
+    } = useHandleTask({ task });
 
     const action = task ? "Edit" : "Add";
 
-    if (!user || user.id !== task?.user_id) return null;
+    if (!user) return null;
+    if (task && user.id !== task?.user_id) return null;
 
     return (
         <>
@@ -101,7 +109,11 @@ export const HandleTask = ({ task }: Props) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button variant="contained" type="submit">
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        disabled={loading === "pending"}
+                    >
                         {action}
                     </Button>
                 </DialogActions>

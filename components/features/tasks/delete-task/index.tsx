@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const DeleteTask = ({ task }: Props) => {
-    const { open, user, handleClickOpen, handleClose, handleDelete } =
+    const { open, user, loading, handleClickOpen, handleClose, handleDelete } =
         useDeleteTask({
             task,
         });
@@ -51,7 +51,7 @@ export const DeleteTask = ({ task }: Props) => {
                         variant="contained"
                         color="error"
                         onClick={handleDelete}
-                        autoFocus
+                        disabled={loading === "pending"}
                     >
                         Delete
                     </Button>

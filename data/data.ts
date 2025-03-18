@@ -1,6 +1,6 @@
-import { TaskStatus, type Task } from "../types/task";
+import { TaskStatus } from "../types/task";
 
-export const TASKS: Task[] = [
+export const TASKS = [
     {
         id: "ckx1m0a6n0000l9n3f7p1a1a",
         title: "Clean the Kitchen",

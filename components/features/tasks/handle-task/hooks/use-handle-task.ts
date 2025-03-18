@@ -13,7 +13,9 @@ type Props = {
 export const useHandleTask = ({ task }: Props) => {
     const { open, handleClickOpen, handleClose } = useDialog();
     const { user } = useAuthStore((state) => state);
-    const { add, update } = useTasksStore((state) => state);
+    const { loading, add, update, setLoading } = useTasksStore(
+        (state) => state
+    );
 
     const statusList = [
         {
@@ -49,6 +51,7 @@ export const useHandleTask = ({ task }: Props) => {
             })
             .finally(() => {
                 toast.success("Task added successfully");
+                setLoading("idle");
                 handleClose();
             });
     };
@@ -76,6 +79,7 @@ export const useHandleTask = ({ task }: Props) => {
             })
             .finally(() => {
                 toast.success("Task updated successfully");
+                setLoading("idle");
                 handleClose();
             });
     };
@@ -85,6 +89,8 @@ export const useHandleTask = ({ task }: Props) => {
             toast.error("Please log in to add or update task");
             return;
         }
+
+        setLoading("pending");
 
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -109,5 +115,13 @@ export const useHandleTask = ({ task }: Props) => {
         }
     };
 
-    return { open, statusList, user, handleClickOpen, handleClose, onSubmit };
+    return {
+        open,
+        statusList,
+        loading,
+        user,
+        handleClickOpen,
+        handleClose,
+        onSubmit,
+    };
 };
