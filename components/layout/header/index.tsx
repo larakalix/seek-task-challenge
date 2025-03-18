@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { ContentBox } from "../common/content-box";
 import { HandleTask } from "@/components/features/tasks/handle-task";

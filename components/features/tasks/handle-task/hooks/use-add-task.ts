@@ -71,7 +71,6 @@ export const useAddTask = ({ task }: Props) => {
     }) => {
         await updateTask({ id, title, description, status })
             .then((response) => {
-                console.log("UPDATE_TASK_RESPONSE", response);
                 if (response) {
                     update(response);
                 }
