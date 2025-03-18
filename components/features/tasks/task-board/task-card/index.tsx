@@ -38,6 +38,12 @@ export const TaskCard = ({ task }: Props) => {
                 >
                     {task.description}
                 </Typography>
+                <hr className="my-4 opacity-20" />
+                <Typography variant="subtitle2" color="success">
+                    <span className="font-semibold">
+                        Created by {task.user_name}
+                    </span>
+                </Typography>
             </CardContent>
             <CardActions className="flex justify-between">
                 {task.status !== TaskStatus.Done && <DeleteTask task={task} />}
