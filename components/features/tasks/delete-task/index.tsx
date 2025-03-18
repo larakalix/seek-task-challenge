@@ -14,10 +14,11 @@ type Props = {
 };
 
 export const DeleteTask = ({ task }: Props) => {
-    const { open, handleClickOpen, handleClose, handleDelete } = useDeleteTask({
+    const { open, user, handleClickOpen, handleClose, handleDelete } = useDeleteTask({
         task,
     });
 
+    if (!user) return null;
     if (!task.id) return null;
 
     return (

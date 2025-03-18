@@ -1,7 +1,8 @@
 import type { Task } from "@/types/task";
-import React from "react";
 import { toast } from "sonner";
+import { useDialog } from "@/hooks/use-dialog";
 import { deleteTask } from "@/services/tasks";
+import { useAuthStore } from "@/stores/auth-store";
 import { useTasksStore } from "@/stores/tasks-store";
 
 type Props = {
@@ -9,16 +10,9 @@ type Props = {
 };
 
 export const useDeleteTask = ({ task }: Props) => {
-    const [open, setOpen] = React.useState(false);
+    const { open, handleClickOpen, handleClose } = useDialog();
+    const { user } = useAuthStore((state) => state);
     const { remove } = useTasksStore((state) => state);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleDelete = async () => {
         if (!task.id) return;
@@ -41,6 +35,7 @@ export const useDeleteTask = ({ task }: Props) => {
 
     return {
         open,
+        user,
         handleClickOpen,
         handleClose,
         handleDelete,

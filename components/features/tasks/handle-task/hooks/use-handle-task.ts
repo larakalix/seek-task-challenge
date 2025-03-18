@@ -1,15 +1,18 @@
 import { TaskStatus, type Task } from "@/types/task";
 import React from "react";
 import { toast } from "sonner";
+import { useDialog } from "@/hooks/use-dialog";
 import { addTask, updateTask } from "@/services/tasks";
+import { useAuthStore } from "@/stores/auth-store";
 import { useTasksStore } from "@/stores/tasks-store";
 
 type Props = {
     task: Task | null;
 };
 
-export const useAddTask = ({ task }: Props) => {
-    const [open, setOpen] = React.useState(false);
+export const useHandleTask = ({ task }: Props) => {
+    const { open, handleClickOpen, handleClose } = useDialog();
+    const { user } = useAuthStore((state) => state);
     const { add, update } = useTasksStore((state) => state);
 
     const statusList = [
@@ -26,14 +29,6 @@ export const useAddTask = ({ task }: Props) => {
             label: "Done",
         },
     ];
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleAddTask = async ({
         title,
@@ -109,5 +104,5 @@ export const useAddTask = ({ task }: Props) => {
         }
     };
 
-    return { open, statusList, handleClickOpen, handleClose, onSubmit };
+    return { open, statusList, user, handleClickOpen, handleClose, onSubmit };
 };

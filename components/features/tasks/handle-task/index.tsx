@@ -11,17 +11,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useAddTask } from "./hooks/use-add-task";
+import { useHandleTask } from "./hooks/use-handle-task";
 
 type Props = {
     task: Task | null;
 };
 
 export const HandleTask = ({ task }: Props) => {
-    const { open, statusList, handleClickOpen, handleClose, onSubmit } =
-        useAddTask({ task });
+    const { open, statusList, user, handleClickOpen, handleClose, onSubmit } =
+        useHandleTask({ task });
 
     const action = task ? "Edit" : "Add";
+
+    if (!user) return null;
 
     return (
         <>
