@@ -7,7 +7,7 @@ export default async function Home() {
     const client = getQueryInstance({
         staleTimeMinutes: 10,
     });
-    await client.prefetchQuery(tasksQueryConfig({ status: "" }));
+    await client.prefetchQuery(tasksQueryConfig());
 
     return (
         <HydrationBoundary state={dehydrate(client)}>

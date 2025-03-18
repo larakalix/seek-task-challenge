@@ -1,14 +1,17 @@
 "use client";
 
-import { useTaskWiew } from "./hooks/use-task-view";
-import { TaskBoard } from "../task-board";
+import { useTaskView } from "./hooks/use-task-view";
+import { TaskGrid } from "../task-board/task-grid";
+import { LoadingSkeleton } from "@/components/layout/common/loading-skeleton";
 
 export const TaskView = () => {
-    const { tasks } = useTaskWiew({ status: "" });
+    const { tasks, isLoading } = useTaskView();
+
+    if (isLoading) return <LoadingSkeleton />;
 
     return (
         <div>
-            <TaskBoard tasks={tasks} />
+            <TaskGrid tasks={tasks} />
         </div>
     );
 };

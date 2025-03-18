@@ -1,22 +1,76 @@
+"use server";
+
 import type { Task } from "@/types/task";
 import { globalEnv } from "@/utils/env-config";
 
-export const getTasks = async ({
-    status = "all",
-}: {
-    status: string;
-}): Promise<Task[]> => {
+const URL = `${globalEnv.ApiUrl}tasks`;
+
+// GET /api/tasks
+export const getTasks = async (): Promise<Task[]> => {
     try {
-        const response = await fetch(
-            `${globalEnv.ApiUrl}tasks?${new URLSearchParams({
-                status,
-            })}`
-        );
+        const response = await fetch(URL);
         const data = await response.json();
 
         return data;
     } catch (error) {
         console.error("GET_TASKS_ERROR", error);
         return [];
+    }
+};
+
+// POST /api/tasks
+export const addTask = async (task: {
+    title: Task["title"];
+    description: Task["description"];
+}): Promise<Task | null> => {
+    try {
+        const response = await fetch(URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task),
+        });
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error("ADD_TASK_ERROR", error);
+        return null;
+    }
+};
+
+// PUT /api/tasks/:id
+export const updateTask = async (task: {
+    id: Task["id"];
+    title: Task["title"];
+    description: Task["description"];
+    status: Task["status"];
+}): Promise<Task | null> => {
+    try {
+        const response = await fetch(`${URL}/${task.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task),
+        });
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error("UPDATE_TASK_ERROR", error);
+        return null;
+    }
+};
+
+// DELETE /api/tasks/:id
+export const deleteTask = async (id: Task["id"]): Promise<Task | null> => {
+    try {
+        const response = await fetch(`${URL}/${id}`, {
+            method: "DELETE",
+        });
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error("DELETE_TASK_ERROR", error);
+        return null;
     }
 };

@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { tasksQueryConfig } from "@/services/tasks/query-config";
 import { useTasksStore } from "@/stores/tasks-store";
 
-export const useTaskWiew = ({ status }: { status: string }) => {
+export const useTaskView = () => {
     const { data, error, isLoading, isRefetching } = useQuery(
-        tasksQueryConfig({ status })
+        tasksQueryConfig()
     );
     const { tasks, getByStatus } = useTasksStore((state) => state);
 
