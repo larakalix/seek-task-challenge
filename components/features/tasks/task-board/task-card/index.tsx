@@ -32,7 +32,11 @@ export const TaskCard = ({ task }: Props) => {
                         {task.title}
                     </Typography>
                 </header>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                    variant="body2"
+                    sx={{ color: "text.secondary" }}
+                    className="min-h-14"
+                >
                     {task.description}
                 </Typography>
             </CardContent>
