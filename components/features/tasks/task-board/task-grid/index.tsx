@@ -12,8 +12,8 @@ export const TaskGrid = ({ tasks }: Props) => {
     return (
         <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {Object.entries(tasksByStatus).map(([status, tasks]) => (
-                    <div key={status}>
+                {Object.entries(tasksByStatus).map(([status, tasks], index) => (
+                    <div key={`status-${status}-${index}`}>
                         <h2 className="text-xl font-bold mb-2 uppercase">
                             {getStatusLabel(status)}
                         </h2>
