@@ -7,7 +7,10 @@ import { useTrash } from "./hooks/use-trash";
 import { TaskCard } from "../task-board/task-card";
 
 export const Trash = () => {
-    const { trash, maxWidth, open, handleClickOpen, handleClose } = useTrash();
+    const { trash, maxWidth, open, user, handleClickOpen, handleClose } =
+        useTrash();
+
+    if (!user) return null;
 
     return (
         <>

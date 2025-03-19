@@ -31,6 +31,7 @@ export const useTrash = () => {
         isLoading,
         isRefetching,
         open,
+        user,
         handleClickOpen,
         handleClose,
     };
