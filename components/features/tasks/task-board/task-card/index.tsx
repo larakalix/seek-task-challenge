@@ -21,7 +21,7 @@ export const TaskCard = ({ task, hideActions = false }: Props) => {
     }[task.status] as ChipProps["color"];
 
     return (
-        <Card className="flex flex-col h-full">
+        <Card data-cy="task-card" className="flex flex-col h-full">
             <CardContent className="flex-1 flex flex-col justify-between">
                 <header className="flex flex-col gap-2">
                     <Chip
@@ -29,11 +29,17 @@ export const TaskCard = ({ task, hideActions = false }: Props) => {
                         color={status}
                         className="w-fit"
                     />
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography
+                        data-cy="task-title"
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                    >
                         {task.title}
                     </Typography>
                 </header>
                 <Typography
+                    data-cy="task-description"
                     variant="body2"
                     sx={{ color: "text.secondary" }}
                     className="min-h-10"
