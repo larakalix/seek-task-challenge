@@ -38,6 +38,7 @@ export const useTasksStore = create<TasksStoreState>()((set, get) => ({
         set({
             tasks: get().tasks.filter((t) => t.id !== id),
             trash: [...get().trash, task],
+            loading: "idle",
         });
     },
     getByStatus: (status) =>
