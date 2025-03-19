@@ -5,6 +5,7 @@ import { useDialog } from "@/hooks/use-dialog";
 import { addTask, updateTask } from "@/services/tasks";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTasksStore } from "@/stores/tasks-store";
+import { ApiActionResult } from "@/types/api";
 
 type Props = {
     task: Task | null;
@@ -39,21 +40,24 @@ export const useHandleTask = ({ task }: Props) => {
         title: Task["title"];
         description: Task["description"];
     }) => {
-        await addTask({ title, description }, `${user?.token}`)
-            .then((response) => {
-                if (response) {
-                    add(response);
-                }
-            })
-            .catch((error) => {
-                console.error("ADD_TASK_ERROR", error);
-                toast.error("Failed to add task");
-            })
-            .finally(() => {
-                toast.success("Task added successfully");
+        const result = await addTask({ title, description }, `${user?.token}`);
+        if (!result) return;
+        const { data, message, statusCode } = result;
+
+        const action: ApiActionResult = {
+            200: () => {
+                if (!data) return;
+
+                add(data);
+                toast.success(message);
                 setLoading("idle");
-                handleClose();
-            });
+            },
+            500: () => toast.error(message),
+        };
+
+        if (statusCode in action) action[statusCode]();
+
+        handleClose();
     };
 
     const handleUpdateTask = async ({
@@ -67,21 +71,27 @@ export const useHandleTask = ({ task }: Props) => {
         description: Task["description"];
         status: Task["status"];
     }) => {
-        await updateTask({ id, title, description, status }, `${user?.token}`)
-            .then((response) => {
-                if (response) {
-                    update(response);
-                }
-            })
-            .catch((error) => {
-                console.error("UPDATE_TASK_ERROR", error);
-                toast.error("Failed to update task");
-            })
-            .finally(() => {
-                toast.success("Task updated successfully");
+        const result = await updateTask(
+            { id, title, description, status },
+            `${user?.token}`
+        );
+        if (!result) return;
+        const { data, message, statusCode } = result;
+
+        const action: ApiActionResult = {
+            200: () => {
+                if (!data) return;
+
+                update(data);
+                toast.success(message);
                 setLoading("idle");
-                handleClose();
-            });
+            },
+            500: () => toast.error(message),
+        };
+
+        if (statusCode in action) action[statusCode]();
+
+        handleClose();
     };
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

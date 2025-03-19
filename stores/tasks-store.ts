@@ -3,8 +3,10 @@ import { create } from "zustand";
 
 export type TasksStoreState = {
     tasks: Task[];
+    trash: Task[];
     loading: "idle" | "pending" | "resolved" | "rejected";
     setTasks: (tasks: Task[]) => void;
+    setTrash: (tasks: Task[]) => void;
     add: (task: Task) => void;
     update: (task: Task) => void;
     remove: (id: Task["id"]) => void;
@@ -15,8 +17,10 @@ export type TasksStoreState = {
 
 export const useTasksStore = create<TasksStoreState>()((set, get) => ({
     tasks: [],
+    trash: [],
     loading: "idle",
     setTasks: (tasks) => set({ tasks }),
+    setTrash: (tasks) => set({ trash: tasks }),
     add: (task) => set({ tasks: [...get().tasks, task] }),
     update: (task) =>
         set({

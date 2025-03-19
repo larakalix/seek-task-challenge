@@ -10,7 +10,10 @@ export const useTaskView = () => {
     const { tasks, getByStatus } = useTasksStore((state) => state);
 
     useEffect(() => {
-        useTasksStore.setState({ tasks: data || [] });
+        if (!data) return;
+        const { data: tasks } = data;
+
+        useTasksStore.setState({ tasks: tasks || [] });
     }, [data]);
 
     return { tasks, error, isLoading, isRefetching, getByStatus };

@@ -1,5 +1,6 @@
 "use server";
 
+import { GenericApiResponse } from "@/types/api";
 import type { Task } from "@/types/task";
 import { globalEnv } from "@/utils/env-config";
 
@@ -11,15 +12,25 @@ const getHeaders = (token: string) => ({
 });
 
 // GET /api/tasks
-export const getTasks = async (): Promise<Task[]> => {
+export const getTasks = async (): Promise<GenericApiResponse<
+    Task[]
+> | null> => {
     try {
         const response = await fetch(URL);
         const data = await response.json();
 
-        return data;
+        return {
+            data,
+            statusCode: 200,
+            message: "Tasks fetched successfully!",
+        };
     } catch (error) {
         console.error("GET_TASKS_ERROR", error);
-        return [];
+        return {
+            data: null,
+            message: String(error) || "An error occurred while fetching tasks.",
+            statusCode: 500,
+        };
     }
 };
 
@@ -30,7 +41,7 @@ export const addTask = async (
         description: Task["description"];
     },
     token: string
-): Promise<Task | null> => {
+): Promise<GenericApiResponse<Task> | null> => {
     try {
         const response = await fetch(URL, {
             method: "POST",
@@ -39,10 +50,18 @@ export const addTask = async (
         });
         const data = await response.json();
 
-        return data;
+        return {
+            data,
+            statusCode: 200,
+            message: "Task added successfully!",
+        };
     } catch (error) {
         console.error("ADD_TASK_ERROR", error);
-        return null;
+        return {
+            data: null,
+            message: String(error) || "An error occurred while adding task.",
+            statusCode: 500,
+        };
     }
 };
 
@@ -55,7 +74,7 @@ export const updateTask = async (
         status: Task["status"];
     },
     token: string
-): Promise<Task | null> => {
+): Promise<GenericApiResponse<Task> | null> => {
     try {
         const response = await fetch(`${URL}/${task.id}`, {
             method: "PUT",
@@ -64,10 +83,18 @@ export const updateTask = async (
         });
         const data = await response.json();
 
-        return data;
+        return {
+            data,
+            statusCode: 200,
+            message: "Task updated successfully!",
+        };
     } catch (error) {
         console.error("UPDATE_TASK_ERROR", error);
-        return null;
+        return {
+            data: null,
+            message: String(error) || "An error occurred while updating task.",
+            statusCode: 500,
+        };
     }
 };
 
@@ -75,7 +102,7 @@ export const updateTask = async (
 export const deleteTask = async (
     id: Task["id"],
     token: string
-): Promise<Task | null> => {
+): Promise<GenericApiResponse<Task> | null> => {
     try {
         const response = await fetch(`${URL}/${id}`, {
             method: "DELETE",
@@ -83,9 +110,44 @@ export const deleteTask = async (
         });
         const data = await response.json();
 
-        return data;
+        return {
+            data,
+            statusCode: 200,
+            message: "Task deleted successfully",
+        };
     } catch (error) {
         console.error("DELETE_TASK_ERROR", error);
-        return null;
+        return {
+            data: null,
+            message: String(error) || "An error occurred while deleting task.",
+            statusCode: 500,
+        };
+    }
+};
+
+export const getDeletedTasks = async (
+    token: string
+): Promise<GenericApiResponse<Task[]> | null> => {
+    try {
+        const response = await fetch(`${URL}/deleted`, {
+            method: "GET",
+            headers: getHeaders(token),
+        });
+        const data = await response.json();
+
+        return {
+            data,
+            statusCode: 200,
+            message: "Deleted tasks fetched successfully!",
+        };
+    } catch (error) {
+        console.error("GET_DELETED_TASKS_ERROR", error);
+        return {
+            data: null,
+            message:
+                String(error) ||
+                "An error occurred while fetching deleted tasks.",
+            statusCode: 500,
+        };
     }
 };

@@ -4,6 +4,7 @@ import { useDialog } from "@/hooks/use-dialog";
 import { deleteTask } from "@/services/tasks";
 import { useAuthStore } from "@/stores/auth-store";
 import { useTasksStore } from "@/stores/tasks-store";
+import { ApiActionResult } from "@/types/api";
 
 type Props = {
     task: Task;
@@ -19,21 +20,24 @@ export const useDeleteTask = ({ task }: Props) => {
 
         setLoading("pending");
 
-        await deleteTask(task.id, `${user?.token}`)
-            .then((response) => {
-                if (response) {
-                    remove(response.id);
-                }
-            })
-            .catch((error) => {
-                console.error("REMOVE_TASK_ERROR", error);
-                toast.error("Failed to remove task");
-            })
-            .finally(() => {
-                toast.success("Task removed successfully");
+        const result = await deleteTask(task.id, `${user?.token}`);
+        if (!result) return;
+        const { data, message, statusCode } = result;
+
+        const action: ApiActionResult = {
+            200: () => {
+                if (!data) return;
+
+                remove(data.id);
+                toast.success(message);
                 setLoading("idle");
-                handleClose();
-            });
+            },
+            500: () => toast.error(message),
+        };
+
+        if (statusCode in action) action[statusCode]();
+
+        handleClose();
     };
 
     return {
