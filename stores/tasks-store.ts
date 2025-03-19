@@ -7,6 +7,7 @@ export type TasksStoreState = {
     loading: "idle" | "pending" | "resolved" | "rejected";
     setTasks: (tasks: Task[]) => void;
     setTrash: (tasks: Task[]) => void;
+    addToTrash: (task: Task) => void;
     add: (task: Task) => void;
     update: (task: Task) => void;
     remove: (id: Task["id"]) => void;
@@ -21,6 +22,7 @@ export const useTasksStore = create<TasksStoreState>()((set, get) => ({
     loading: "idle",
     setTasks: (tasks) => set({ tasks }),
     setTrash: (tasks) => set({ trash: tasks }),
+    addToTrash: (task) => set({ trash: [...get().trash, task] }),
     add: (task) => set({ tasks: [...get().tasks, task] }),
     update: (task) =>
         set({
