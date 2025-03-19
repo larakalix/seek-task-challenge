@@ -9,13 +9,15 @@ import { DeleteTask } from "../../delete-task";
 
 type Props = {
     task: Task;
+    hideActions?: boolean;
 };
 
-export const TaskCard = ({ task }: Props) => {
+export const TaskCard = ({ task, hideActions = false }: Props) => {
     const status = {
         [TaskStatus.Todo]: "default",
         [TaskStatus.InProgress]: "warning",
         [TaskStatus.Done]: "success",
+        [TaskStatus.Deleted]: "info",
     }[task.status] as ChipProps["color"];
 
     return (
@@ -45,10 +47,14 @@ export const TaskCard = ({ task }: Props) => {
                     </span>
                 </Typography>
             </CardContent>
-            <CardActions className="flex justify-between">
-                {task.status !== TaskStatus.Done && <DeleteTask task={task} />}
-                <HandleTask task={task} />
-            </CardActions>
+            {!hideActions && (
+                <CardActions className="flex justify-between">
+                    {task.status !== TaskStatus.Done && (
+                        <DeleteTask task={task} />
+                    )}
+                    <HandleTask task={task} />
+                </CardActions>
+            )}
         </Card>
     );
 };
