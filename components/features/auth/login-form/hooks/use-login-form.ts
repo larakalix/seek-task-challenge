@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { useDialog } from "@/hooks/use-dialog";
 import { loginUser } from "@/services/auth";
 import { useAuthStore } from "@/stores/auth-store";
+import { ApiActionResult } from "@/types/api";
 
 export const useLoginForm = () => {
     const { open, handleClickOpen, handleClose } = useDialog();
@@ -15,15 +16,21 @@ export const useLoginForm = () => {
             formData.entries()
         ) as LoginUser;
 
-        await loginUser({ email, password })
-            .then((data) => {
-                if (data) setUser(data);
-            })
-            .catch((error) => console.error("LOGIN_USER_ERROR", error))
-            .finally(() => {
-                toast.success("Login successful!");
-                handleClose();
-            });
+        const result = await loginUser({ email, password });
+        if (!result) return;
+        const { data, message, statusCode } = result;
+
+        const action: ApiActionResult = {
+            200: () => {
+                setUser(data);
+                toast.success(message);
+            },
+            500: () => toast.error(message),
+        };
+
+        if (statusCode in action) action[statusCode]();
+
+        handleClose();
     };
 
     return { open, handleClickOpen, handleClose, onSubmit };

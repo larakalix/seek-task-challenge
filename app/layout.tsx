@@ -21,7 +21,7 @@ export default function RootLayout({
     return (
         <QueryProvider>
             <html lang="en">
-                <body className="antialiased">
+                <body className="antialiased flex flex-col h-screen">
                     <Toaster richColors />
 
                     <Header />

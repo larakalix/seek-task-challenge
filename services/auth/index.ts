@@ -1,5 +1,6 @@
 "use server";
 
+import { GenericApiResponse } from "@/types/api";
 import type { User, RegisterUser, LoginUser } from "@/types/user";
 import { globalEnv } from "@/utils/env-config";
 
@@ -8,7 +9,7 @@ const URL = `${globalEnv.ApiUrl}auth`;
 // POST /api/auth/register
 export const registerUser = async (
     user: RegisterUser
-): Promise<User | null> => {
+): Promise<GenericApiResponse<User> | null> => {
     try {
         const response = await fetch(`${URL}/register`, {
             method: "POST",
@@ -17,15 +18,28 @@ export const registerUser = async (
         });
         const data = await response.json();
 
-        return data;
+        if ("detail" in data) throw new Error(data.detail);
+
+        return {
+            data,
+            statusCode: 200,
+            message: "User registered successfully!",
+        };
     } catch (error) {
         console.error("REGISTER_USER_ERROR", error);
-        return null;
+        return {
+            data: null,
+            message:
+                String(error) || "An error occurred while registering user.",
+            statusCode: 500,
+        };
     }
 };
 
 // POST /api/auth/login
-export const loginUser = async (user: LoginUser): Promise<User | null> => {
+export const loginUser = async (
+    user: LoginUser
+): Promise<GenericApiResponse<User> | null> => {
     try {
         const response = await fetch(`${URL}/login`, {
             method: "POST",
@@ -34,9 +48,19 @@ export const loginUser = async (user: LoginUser): Promise<User | null> => {
         });
         const data = await response.json();
 
-        return data;
+        if ("detail" in data) throw new Error(data.detail);
+
+        return {
+            data,
+            statusCode: 200,
+            message: "Login successful!",
+        };
     } catch (error) {
         console.error("LOGIN_USER_ERROR", error);
-        return null;
+        return {
+            data: null,
+            message: String(error) || "An error occurred while logging in.",
+            statusCode: 500,
+        };
     }
 };
