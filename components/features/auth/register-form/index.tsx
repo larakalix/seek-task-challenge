@@ -47,7 +47,6 @@ export const RegisterForm = () => {
                         variant="standard"
                     />
                     <TextField
-                        autoFocus
                         required
                         margin="dense"
                         id="email"
@@ -58,7 +57,6 @@ export const RegisterForm = () => {
                         variant="standard"
                     />
                     <TextField
-                        autoFocus
                         required
                         margin="dense"
                         id="password"

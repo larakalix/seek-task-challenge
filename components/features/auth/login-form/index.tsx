@@ -47,7 +47,6 @@ export const LoginForm = () => {
                         variant="standard"
                     />
                     <TextField
-                        autoFocus
                         required
                         margin="dense"
                         id="password"

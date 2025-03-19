@@ -73,7 +73,6 @@ export const HandleTask = ({ task }: Props) => {
                     />
 
                     <TextField
-                        autoFocus
                         required
                         margin="dense"
                         id="description"
