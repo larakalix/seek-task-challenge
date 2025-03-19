@@ -30,8 +30,16 @@ export const useTasksStore = create<TasksStoreState>()((set, get) => ({
                 t.id === task.id ? { ...t, ...task } : t
             ),
         }),
-    remove: (id) =>
-        set({ tasks: get().tasks.filter((task) => task.id !== id) }),
+    remove: (id) => {
+        const task = get().tasks.find((t) => t.id === id);
+
+        if (!task) return;
+
+        set({
+            tasks: get().tasks.filter((t) => t.id !== id),
+            trash: [...get().trash, task],
+        });
+    },
     getByStatus: (status) =>
         get().tasks.filter((task) => task.status === status),
     getById: (id) => get().tasks.find((task) => task.id === id),

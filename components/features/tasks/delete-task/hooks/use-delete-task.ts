@@ -13,7 +13,7 @@ type Props = {
 export const useDeleteTask = ({ task }: Props) => {
     const { open, handleClickOpen, handleClose } = useDialog();
     const { user } = useAuthStore((state) => state);
-    const { loading, addToTrash, remove, setLoading } = useTasksStore(
+    const { loading, remove, setLoading } = useTasksStore(
         (state) => state
     );
 
@@ -32,7 +32,6 @@ export const useDeleteTask = ({ task }: Props) => {
 
                 remove(data.id);
                 toast.success(message);
-                addToTrash(task);
                 setLoading("idle");
             },
             500: () => toast.error(message),
