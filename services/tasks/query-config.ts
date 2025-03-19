@@ -6,6 +6,7 @@ export const tasksQueryConfig = () =>
         queryKey: ["get-tasks"],
         queryFn: () => getTasks(),
         placeholderData: keepPreviousData,
+        refetchOnMount: true,
     });
 
 export const trashTasksQueryConfig = ({ token }: { token: string }) =>
