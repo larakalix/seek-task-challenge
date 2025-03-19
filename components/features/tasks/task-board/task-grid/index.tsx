@@ -11,6 +11,7 @@ export const TaskGrid = ({ tasks }: Props) => {
 
     return (
         <>
+            <h2 className="text-2xl font-bold mb-2 uppercase">Todo List</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {Object.entries(tasksByStatus).map(([status, tasks], index) => (
                     <div key={`status-${status}-${index}`}>

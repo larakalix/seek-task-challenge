@@ -1,9 +1,7 @@
-import { TaskStatus, type Task } from "@/types/task";
+import { TaskStatus, ActiveTaskStatus, type Task } from "@/types/task";
 type Props = {
     tasks: Task[];
 };
-
-type ActiveTaskStatus = Exclude<TaskStatus, TaskStatus.Deleted>;
 
 export const useTaskGrid = ({ tasks }: Props) => {
     const grouped = Object.groupBy(tasks, (task) => task.status);

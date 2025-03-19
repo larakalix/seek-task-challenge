@@ -5,6 +5,8 @@ export enum TaskStatus {
     Deleted = "deleted",
 }
 
+export type ActiveTaskStatus = Exclude<TaskStatus, TaskStatus.Deleted>;
+
 export type Task = {
     id: string;
     title: string;
